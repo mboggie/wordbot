@@ -1,0 +1,6 @@
+venv
+venv/*
+package.zip
+.DS_Store
+wordbot.conf
+
