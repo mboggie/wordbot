@@ -63,7 +63,7 @@ Step 2: Deploy to AWS
 
 In AWS, I'm setting up a new Lambda function as follows:
 
-![](ScreenShot2018-10-16at10-27d25ecb-1866-4d79-9002-d41f126422bf.41.16AM.png)
+![AWS Screenshot](aws-1.png)
 
 Note that for now, simple microservice permissions are enough on this "role". In later steps I may need to do something fancier to filter for specific words / commands.
 
