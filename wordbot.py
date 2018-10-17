@@ -48,7 +48,8 @@ def lambda_handler(event, context):
     for idx, definition in enumerate(wod.definitions):
         postText += "%i: _(%s)_ %s\n" % (idx+1, definition.partOfSpeech, definition.text)
     postText += "\nRemember: if you hear the Secret Word, don't forget to SCREAM REAL LOUD!!!"""
-    print (postText)
+    if debug:
+        print (postText)
 
     ### 5 - post message to slack
     msg = {'text': postText, 'mrkdwn': True}
