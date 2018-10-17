@@ -5,7 +5,7 @@ import requests
 import boto3
 
 debug = False
-dryRun = True
+dryRun = False
 
 def lambda_handler(event, context):
 
