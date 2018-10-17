@@ -47,7 +47,7 @@ Helpful libraries to have in your Python project:
 - json: helps in loading strings into dictionaries, and making dictionaries into JSON text snippets. Particularly useful in communicating with Slack, which expects a JSON payload to the POST method that makes a message.
 - requests: very straightforward API for making HTTP calls. (Realistically this could have been enough to integrate with the Wordnik API, but they have a client, so why not try that?)
 
-This repo contains [wordbot.py](http://wordbot.py), which currently shows the basic flow of the program. While it works in the best case right now, it will require a lot more error handling to be truly robust (for example, to post to Slack if an API is not responding.) It also doesn't store the word-of-the-day anywhere, which will be required to make the responder work later.
+This repo contains wordbot.py, which currently shows the basic flow of the program. While it works in the best case right now, it will require a lot more error handling to be truly robust (for example, to post to Slack if an API is not responding.) It also doesn't store the word-of-the-day anywhere, which will be required to make the responder work later.
 
 The script (as currently written) can be executed on the command line as `python wordbot.py`  
 
@@ -74,7 +74,7 @@ In setting up the lambda function to run, the first step will be to create the d
 - `cd venv/lib/python3.7/site-packages/`
 - `zip -r9 ~/Code/wordbot/package.zip .`
 - `cd ~/Code/wordbot`
-- `zip -g [package.zip](http://package.zip) wordbot.py wordbot.conf`
+- `zip -g package.zip wordbot.py wordbot.conf`
 
 The zip file can then be uploaded into the Lambda UI.
 
