@@ -2,9 +2,10 @@ import json
 from wordnik import *
 import configparser
 import requests
+import boto3
 
 debug = False
-dryRun = False
+dryRun = True
 
 def lambda_handler(event, context):
 
@@ -29,8 +30,16 @@ def lambda_handler(event, context):
             print (definition.partOfSpeech)
             print (definition.text)
 
-    ### 3 - save word for later retrieval / comparison by the listener [TBD]
-    pass
+    ### 3 - save word for later retrieval / comparison by the listener 
+    # Note: boto will be allowed/prevented from writing to s3 by the execution role
+    # This will require IAM user configuration, which is documented in docs/notes.md
+    s3file = config['s3']['key']
+    s3bucket = config['s3']['bucket']
+    wordobj = {"word":wod.word}
+    awscli = boto3.client('s3')
+    s3response = awscli.put_object(Bucket=s3bucket, Key=s3file, Body=json.dumps(wordobj))
+    if debug:
+        print (json.dumps(s3response))
 
     ### 4 - format the message for posting
     postText = "Hey, kids! Today's Secret Word is... %s\n\n" % wod.word.upper()

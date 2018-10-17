@@ -46,8 +46,9 @@ Helpful libraries to have in your Python project:
 - configparser: lets you have an external config file of the necessary keys, API fields, etc that you'll need to manage.
 - json: helps in loading strings into dictionaries, and making dictionaries into JSON text snippets. Particularly useful in communicating with Slack, which expects a JSON payload to the POST method that makes a message.
 - requests: very straightforward API for making HTTP calls. (Realistically this could have been enough to integrate with the Wordnik API, but they have a client, so why not try that?)
+- boto3: allows Python to interact with other AWS services. In our case, we'll use this to write the word of the day to S3.
 
-This repo contains wordbot.py, which currently shows the basic flow of the program. While it works in the best case right now, it will require a lot more error handling to be truly robust (for example, to post to Slack if an API is not responding.) It also doesn't store the word-of-the-day anywhere, which will be required to make the responder work later.
+This repo contains wordbot.py, which currently shows the basic flow of the program. While it works in the best case right now, it will require a lot more error handling to be truly robust (for example, to post to Slack if an API is not responding.) 
 
 The script (as currently written) can be executed on the command line as `python wordbot.py`  
 
@@ -65,9 +66,9 @@ In AWS, I'm setting up a new Lambda function as follows:
 
 ![AWS Screenshot](aws-1.png)
 
-Note that for now, simple microservice permissions are enough on this "role". In later steps I may need to do something fancier to filter for specific words / commands.
+In addition to the simple microservice permissions that come by default, I've also added AmazonS3FullAccess, to allow the script to read and write files in S3. To be more secure we could create custom permissions limiting this to just file reads and writes, but that can be done later on.
 
-(I will bet I'll need to update this later - we'll need to STORE the secret word somewhere, won't we?) 
+As configured, the script will write a file called `wod.json` to the bucket wordbot.study-hall.club. The contents will be a single JSON entry like `{"word": "innatism"}`. I added these values directly to the sample config file as well, since they're not privileged, and the bucket is not accessible to the public.
 
 In setting up the lambda function to run, the first step will be to create the distribution package. On the command line I ran the following commands, which created the zip file in the format AWS expects:
 
