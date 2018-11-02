@@ -87,7 +87,13 @@ To set a simple daily schedule for every morning at 7 AM, I used the `cron` func
 
 This will trigger the function to run each day at 11 AM UTC (7 AM Eastern Daylight Time, 6 AM Eastern Standard Time).
 
-2: Monitor Slack and respond to the "word of the day"
+## Part 3: Monitor Slack and respond to the "word of the day"
+
+For this I referenced a [different blog post](https://chatbotslife.com/write-a-serverless-slack-chat-bot-using-aws-e2d2432c380e) about building chat bots. Following the instructions here made the process rather straightforward, so rather than duplicate that information here, I'll note some bumps that I ran into along the way for future reference:
+1. The execution role I set up for the first script, above, was allowed to write log entries to the log group secret-word-selector, not secret-word-responder. To fix this I added the CloudWatchLogsFullAccess policy to the execution role.
+2. Adding message.channels to the Event Subscriptions tab for the app in Slack doesn't do anything if the app doesn't also have the correct OAuth scope. I needed to add message.channels there as well, which led to the bot being re-installed.
+3. Even though the app is installed as an "integration" in #bot-testing, this only allowed it to post using webhooks. This isn't what's used for interactive conversations; bot users are. It therefore needed to (a) post to a different URL / API endpoint to respond in the right places, and (b) needed to be invited as a user into the #bot-testing channel. Keep this one in mind later when we decide to move this to a more public place, since it'll need to be moved for both the Webhook Integration and the Bot User. 
+4. Slack recently changed how they handle Authorizations; previously you could pass the bot token in the payload of the POST request; now, you have to add it to the Authorization HTTP Header.
 
 Documentation reviewed in the process of building this app:
 
